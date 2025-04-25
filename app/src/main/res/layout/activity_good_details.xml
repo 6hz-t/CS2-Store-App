@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <!-- 顶部导航栏 -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/gobackhome_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:paddingTop="15dp"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        app:navigationIcon="@drawable/back"
+        app:title="市场"
+        app:titleTextColor="#1F2937" />
+
+    <!-- 商品图片 -->
+    <ImageView
+        android:id="@+id/details_product_image"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:scaleType="centerCrop"
+        android:padding="24dp"
+        android:src="@drawable/ic_launcher"
+        android:layout_marginTop="5dp" />
+
+    <!-- 商品信息 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#F9FAFB"
+        android:paddingLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:clipToOutline="true"
+        android:outlineProvider="bounds">
+
+        <!-- 商品名称 -->
+        <TextView
+            android:id="@+id/details_product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="商品名称"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#1F2937" />
+
+        <!-- 商品类型 -->
+        <TextView
+            android:id="@+id/details_product_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Type"
+            android:textSize="16sp"
+            android:textColor="#6B7280"
+            android:layout_marginTop="4dp" />
+
+        <!-- 商品价格 -->
+        <TextView
+            android:id="@+id/details_product_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="￥99.99"
+            android:textColor="#FF5722"
+            android:textSize="26sp"
+            android:layout_marginTop="8dp" />
+
+        <!-- 卖家 ID -->
+        <TextView
+            android:id="@+id/details_seller_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="卖家id"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#4B5563"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <!-- 商品描述 -->
+
+    <!-- 填充剩余空间 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="#F9FAFB"
+        android:clipToOutline="true"
+        android:orientation="vertical"
+        android:outlineProvider="bounds"
+        android:padding="24dp">
+
+        <!-- 商品描述标题 -->
+        <TextView
+            android:id="@+id/details_product_description_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="商品描述"
+            android:textColor="#1F2937"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- 商品描述内容 -->
+        <TextView
+            android:id="@+id/details_product_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:maxLines="5"
+            android:text="这是一个非常棒的商品，具有多种功能和特点。"
+            android:textColor="#6B7280"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" />
+
+    <!-- 加入购物车按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_margin="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/details_buy_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:padding="16dp"
+            android:text="购买"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </LinearLayout>
+</LinearLayout>

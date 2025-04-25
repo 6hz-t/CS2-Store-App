@@ -1,0 +1,68 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/myorder_list"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:padding="1dp"
+    android:layout_margin="1dp"
+    android:elevation="3dp"
+    android:backgroundTint="#F8F8F8">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="1dp"
+        android:background="#FFFFFF"
+        android:clipToPadding="true"
+        android:clipChildren="true">
+
+        <ImageView
+            android:id="@+id/done_order_goodimage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background"
+            android:layout_marginEnd="16dp"
+            android:background="#FFFFFF"
+            android:foreground="?attr/selectableItemBackgroundBorderless" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/done_order_goodname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="订单编号: 123456"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- 订单描述 -->
+            <TextView
+                android:id="@+id/done_order_goodprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="这是一个交易完成的订单描述"
+                android:textColor="#666666"
+                android:textSize="16sp" />
+
+            <!-- 订单状态 -->
+            <TextView
+                android:id="@+id/done_order_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="交易已完成"
+                android:textColor="#4CAF50"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

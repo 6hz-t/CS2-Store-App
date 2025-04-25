@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FFFFFF"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="10dp"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="我的订单"
+        app:titleTextColor="#000000" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#F9F9F9"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- 待处理交易标题 -->
+            <TextView
+                android:id="@+id/pending_transactions_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="待处理交易"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#444444"
+                android:layout_marginTop="24dp"/>
+
+            <!-- 待办订单列表，这里使用普通ListView，高度设置为0dp并配合layout_weight -->
+            <com.example.csapp_10.Mystyle.WrapContentListView
+                android:id="@+id/orders_todo_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:background="#FFFFFF"
+                android:divider="#EEEEEE"
+                android:dividerHeight="1dp"
+                android:layout_marginTop="5dp"/>
+
+            <!-- 已完成交易标题 -->
+            <TextView
+                android:id="@+id/completed_transactions_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已完成交易"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#444444"
+                android:layout_marginTop="24dp"/>
+
+            <!-- 已完成订单列表，同样使用普通ListView，高度设置为0dp并配合layout_weight -->
+            <com.example.csapp_10.Mystyle.WrapContentListView
+                android:id="@+id/orders_done_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:background="#FFFFFF"
+                android:divider="#EEEEEE"
+                android:dividerHeight="1dp"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

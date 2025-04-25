@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_home"
+        android:title="市场"
+        android:icon="@drawable/home"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_repo"
+        android:title="库存"
+        android:icon="@drawable/repo"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_mine"
+        android:title="我的"
+        android:icon="@drawable/user"
+        app:showAsAction="always" />
+</menu>
