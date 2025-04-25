@@ -129,8 +129,7 @@ public class MainActivity extends AppCompatActivity {
                                 String result = response.body().string();
                                 ObjectMapper objectMapper = new ObjectMapper();
                                 JsonNode jsonNode = objectMapper.readTree(result);
-                                String message = String.valueOf(jsonNode.get("code").asInt());
-                                code[0] = response.code();
+                                code[0] = jsonNode.get("code").asInt();
                                 if (code[0] == 200) {
 
 

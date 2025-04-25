@@ -4,6 +4,7 @@ package com.example.csapp_10.activity.frament;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,19 @@ public class MineFrament extends Fragment {
 
         TextView nametv=rootview.findViewById(R.id.name);
         nametv.setText(userInfo.getUsername());
+        TextView emailtv=rootview.findViewById(R.id.steam_status);
+        ImageView emailiv=rootview.findViewById(R.id.steam_status_icon);
+        if(userInfo.getSteamId()==""){
+            emailtv.setText("Steam未绑定");
+            emailtv.setTextColor(Color.parseColor("#dd171a"));
+            emailiv.setImageResource(R.drawable.steamerror);
+
+        }
+
+
+
+
+
         ImageView iv = rootview.findViewById(R.id.avatar);
         Glide.with(getContext())
                 .load(userInfo.getAvatarUrl())

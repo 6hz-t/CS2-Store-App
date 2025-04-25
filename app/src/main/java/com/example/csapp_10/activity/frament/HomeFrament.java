@@ -45,13 +45,7 @@ public class HomeFrament extends Fragment {
         rootview = inflater.inflate(R.layout.fragment_home_frament, container, false);
         lv = rootview.findViewById(R.id.listView);
 
-        try {
-            adapter = new ProductListAdapter(context, marketGoods);
-            lv.setAdapter(adapter);
-        } catch (MalformedURLException e) {
-            Log.e("CSApp_Log", "Error creating ProductListAdapter", e);
-            throw new RuntimeException(e);
-        }
+
         /*SQLite dbUtil = new SQLite(context);*/
 
 
@@ -100,21 +94,17 @@ public class HomeFrament extends Fragment {
             List<MarketGood> marketGoods = Collections.emptyList();
             try {
                 httpUtils= new HttpUtils();
-                marketGoods.clear();
                 marketGoods=httpUtils.getMarketGoods();
-                adapter.notifyDataSetChanged();
+                adapter = new ProductListAdapter(context, marketGoods);
+                lv.setAdapter(adapter);
+
             } catch (MalformedURLException e) {
                 Log.e("CSApp_Log", "Error creating HttpUtils", e);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
-            try {
-                adapter = new ProductListAdapter(context, marketGoods);
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-            lv.setAdapter(adapter);
+
         } else {
             Log.e("CSApp_Log", "Context is null");
             Toast.makeText(getActivity(), "Context is null", Toast.LENGTH_SHORT).show();

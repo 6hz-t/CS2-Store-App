@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -143,6 +144,7 @@ public class HttpUtils {
 
                    }
                } catch (IOException e) {
+                   Log.e("HttpUtils", "Error fetching product list", e);
                    throw new RuntimeException(e);
                }
 
@@ -212,7 +214,10 @@ public class HttpUtils {
 
                     }
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                   //throw new RuntimeException(e);
+                    if (e instanceof ConnectException) {
+                        Log.e("CSApp_Log ConnectionFailed", "连接超时", e);
+                    }
                 }
             }
         });
