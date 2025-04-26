@@ -2,6 +2,7 @@ package com.example.csapp_10;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -86,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
         register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                Uri webpage = Uri.parse("https://6hz.fun");
+                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                 startActivity(intent);
             }
         });
@@ -135,13 +137,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                                    Log.e("Login", "登录成功");
+                                    Log.e("CSApp_Log", "登录成功");
                                 }
                             } else {
-                                Log.e("Login", "请求失败，状态码: " + response.code()+" "+response.body().string());
+                                Log.e("CSApp_Log", "请求失败，状态码: " + response.code()+" "+response.body().string());
                             }
                         } catch (IOException  e) {
-                           Log.e("Login", "请求失败: " + e.getMessage());
+                           Log.e("CSApp_Log", "请求失败: " + e.getMessage());
                            throw new RuntimeException(e);
                         }
 

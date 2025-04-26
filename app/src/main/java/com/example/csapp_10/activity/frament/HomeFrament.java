@@ -1,7 +1,10 @@
 package com.example.csapp_10.activity.frament;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +36,7 @@ public class HomeFrament extends Fragment {
     ProductListAdapter adapter;
     ListView lv;
     List<MarketGood> marketGoods=new LinkedList<>();
+    String steamid;
 
 
 
@@ -44,7 +48,8 @@ public class HomeFrament extends Fragment {
         Context context = getContext();
         rootview = inflater.inflate(R.layout.fragment_home_frament, container, false);
         lv = rootview.findViewById(R.id.listView);
-
+        SharedPreferences sp=context.getSharedPreferences("user_info",MODE_PRIVATE);
+        steamid=sp.getString("steamid","");
 
         /*SQLite dbUtil = new SQLite(context);*/
 
@@ -57,7 +62,7 @@ public class HomeFrament extends Fragment {
                 List<MarketGood> marketGoods = Collections.emptyList();
                 try {
                     httpUtils= new HttpUtils();
-                    marketGoods= httpUtils.getMarketGoods();
+                    marketGoods= httpUtils.getMarketGoods(steamid);
                     List<MarketGood> filteredList = marketGoods.stream()
                             .filter(good -> good.getName().toLowerCase().contains(name.toLowerCase()))
                             .collect(Collectors.toList());
@@ -94,7 +99,7 @@ public class HomeFrament extends Fragment {
             List<MarketGood> marketGoods = Collections.emptyList();
             try {
                 httpUtils= new HttpUtils();
-                marketGoods=httpUtils.getMarketGoods();
+                marketGoods=httpUtils.getMarketGoods(steamid);
                 adapter = new ProductListAdapter(context, marketGoods);
                 lv.setAdapter(adapter);
 

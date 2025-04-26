@@ -118,7 +118,7 @@ public class ProductListAdapter extends ArrayAdapter<MarketGood> {
         intent.putExtra("product_icon_url", product.getIconUrl());
         intent.putExtra("product_seller_id", product.getSellerId());
         intent.putExtra("product_type", product.getType());
-        intent.putExtra("product_id", product.getAssetId());
+        intent.putExtra("product_asset_id", product.getAssetId());
 
 
         context.startActivity(intent);

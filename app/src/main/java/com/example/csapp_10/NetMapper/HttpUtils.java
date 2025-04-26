@@ -1,5 +1,8 @@
 package com.example.csapp_10.NetMapper;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 
@@ -62,6 +65,7 @@ public class HttpUtils {
                         ObjectMapper objectMapper = new ObjectMapper();
                         JsonNode jsonNode = objectMapper.readTree(result);
                         code[0] = jsonNode.get("code").asInt();
+                        Log.e("CSApp_Log", "run: "+jsonNode.get("data").asText());
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -75,6 +79,7 @@ public class HttpUtils {
         }catch (InterruptedException e){
             e.printStackTrace();
         }
+        Log.e("CSApp_Log", "Httputils.getoutMarket "+code[0]);
 
         return code[0];
     }
@@ -111,10 +116,11 @@ public class HttpUtils {
         }catch (InterruptedException e){
             e.printStackTrace();
         }
+        Log.e("CSApp_Log", "Httputils steamid "+steamid[0]);
         return steamid[0];
 
     }
-    public List<MarketGood> getMarketGoods() throws IOException {
+    public List<MarketGood> getMarketGoods(String steamid) throws IOException {
         List<MarketGood> productList = new LinkedList<>();
        Thread getProductListThread=new Thread(new Runnable() {
            @Override
@@ -144,6 +150,10 @@ public class HttpUtils {
                                        "type": "",
                                        "nameColor": "",
                                        "marketName": ""*/
+                               String sellerId=productNode.get("sellerId").asText();
+                               if(sellerId.equals(steamid)){
+                                   continue;
+                               }
                                MarketGood good = new MarketGood();
                                good.setAssetId(productNode.get("assetId").asText());
                                good.setSellerId(productNode.get("sellerId").asText());
@@ -174,7 +184,7 @@ public class HttpUtils {
 
                    }
                } catch (IOException e) {
-                   Log.e("HttpUtils", "Error fetching product list", e);
+                   Log.e("CSApp_Log", "run: "+e.getMessage());
                    throw new RuntimeException(e);
                }
 
@@ -188,6 +198,7 @@ public class HttpUtils {
            e.printStackTrace();
        }
         Collections.shuffle(productList);
+       Log.e("CSApp_Log", "HttpUtils.getMarketGoods: "+productList.size());
         return productList;
     }
     public List<MarketGood> getRepoGoods(String steamid,int page) throws IOException {
@@ -256,6 +267,7 @@ public class HttpUtils {
         }catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Log.e("CSApp_Log", "HttpUtils.getRepoGoods: "+productList.size());
         return productList;
     }
     public int buyProduct(String assetId, String sellerId, String purchaserId, double price, int state) throws IOException {
@@ -265,7 +277,9 @@ public class HttpUtils {
             public void run() {
                 JSONObject json = new JSONObject();
                 try {
+                    Log.e("CSApp_Log", "buyProduct: "+assetId+" "+sellerId+" "+purchaserId+" "+price+" "+state);
                     json.put("assetId", assetId);
+
                     json.put("sellerId", sellerId);
                     json.put("purchaserId", purchaserId);
                     json.put("price", price);
@@ -282,10 +296,13 @@ public class HttpUtils {
                         .build();
                 OkHttpClient client = new OkHttpClient();
                 try (Response response = client.newCall(request).execute()) {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    JsonNode jsonNode = objectMapper.readTree(response.body().string());
                     if (response.isSuccessful() && response.body() != null) {
-                        code[0]=response.code();
+                        Log.e("CSApp_Log", "请求成功:" +jsonNode.get("code")+jsonNode.get("msg").asText() );
+                        code[0]=jsonNode.get("code").asInt();
                     } else {
-                        Log.e("CSApp_Log", "购买商品请求失败，响应码: " + response.code());
+                        Log.e("CSApp_Log", "请求失败:" +jsonNode.get("msg").asText() );
                         code[0]=500;
                     }
                 } catch (IOException e) {
@@ -299,6 +316,7 @@ public class HttpUtils {
         }catch (InterruptedException e){
             e.printStackTrace();
         }
+        Log.e("CSApp_Log", "HttpUtils.buyProduct: code"+code[0]);
         return code[0];
 
     }
@@ -332,10 +350,6 @@ public class HttpUtils {
                             code[1]=jsonNode.get("code").asInt();
                         }
                     }
-                    else {
-                        Log.e("CSApp_Log", "购买商品请求失败，响应码: " + response.code());
-                        Log.e("CSApp_Log", "购买商品请求失败，响应码: " + response.body().string());
-                    }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -348,6 +362,7 @@ public class HttpUtils {
         }catch (InterruptedException e){
             e.printStackTrace();
         }
+        Log.e("CSApp_Log", "Https.sellgood: code"+code[0]+" "+code[1]);
         return code;
     }
     public UserInfo getUserInfo(String account) throws IOException {
@@ -366,7 +381,7 @@ public class HttpUtils {
                             "code": 200,
                                 "msg": null,
                                 "data": {
-                            "userId": "f987d112c197492396c1f3b3b133d223",
+                                    "userId": "f987d112c197492396c1f3b3b133d223",
                                     "userName": "Hzing",
                                     "steamName": null,
                                     "phone": "666666",
@@ -388,6 +403,7 @@ public class HttpUtils {
                             user.setAvatarUrl(data.get("avatarUrl").asText());
                             user.setSteamId(data.get("steamId").asText());
                             user.setPassword(data.get("password").asText());
+                            user.setWallet(data.get("fund").asInt());
                         }
                     }
 
@@ -406,6 +422,8 @@ public class HttpUtils {
         }catch (InterruptedException e){
             e.printStackTrace();
         }
+
+        Log.e("CSApp_Log", "HttpUtils.getUserInfo: "+user.getUsername());
         return user;
     }
 }

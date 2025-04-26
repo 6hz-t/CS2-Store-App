@@ -6,6 +6,8 @@ public class Order {
     private String userId;
     private String sellerid;
     private String buyerid;
+    private String sellerName;
+    private String buyerName;
     private String productId;//buyername
     private String productName;
     private double totalPrice;
@@ -15,6 +17,18 @@ public class Order {
     private String imageUrl;
 
     // Getters and Setters
+    public String getSellerName() {
+        return sellerName;
+    }
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
+    }
+    public String getBuyerName() {
+        return buyerName;
+    }
+    public void setBuyerName(String buyerName) {
+        this.buyerName = buyerName;
+    }
     public String getSellerid() {
         return sellerid;
     }

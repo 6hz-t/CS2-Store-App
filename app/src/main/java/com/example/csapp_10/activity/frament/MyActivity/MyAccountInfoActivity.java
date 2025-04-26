@@ -15,7 +15,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.csapp_10.Entity.UserInfo;
+import com.example.csapp_10.NetMapper.HttpUtils;
 import com.example.csapp_10.R;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class MyAccountInfoActivity extends AppCompatActivity {
 
@@ -45,14 +50,26 @@ public class MyAccountInfoActivity extends AppCompatActivity {
         TextView textView = findViewById(R.id.username_text);
         TextView textView2 = findViewById(R.id.phone_text);
         TextView textView3 = findViewById(R.id.steamid_text);
-
+        TextView textView4 = findViewById(R.id.wallet_text);
         SharedPreferences sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
         String phone = sharedPreferences.getString("phone", "");
-        String steamid = sharedPreferences.getString("steamid", "");
 
-        textView.setText("");
-        textView2.setText(phone);
-        textView3.setText(steamid);
+        try {
+            HttpUtils htu = new HttpUtils();
+            UserInfo userInfo = htu.getUserInfo(phone);
+            if (userInfo != null) {
+                textView.setText(userInfo.getUsername());
+                textView2.setText(userInfo.getPhone());
+                textView3.setText(userInfo.getSteamId());
+                textView4.setText(String.valueOf(userInfo.getWallet()));
+            }
+
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
 
     }

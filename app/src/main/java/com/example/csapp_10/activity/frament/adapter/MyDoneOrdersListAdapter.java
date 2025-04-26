@@ -34,7 +34,7 @@ public class MyDoneOrdersListAdapter extends ArrayAdapter<Order> {
         ImageView img = convertView.findViewById(R.id.done_order_goodimage);
         Order order = orders.get(position);
         nametv.setText(order.getProductName());
-        pricetv.setText("购入价:"+order.getProductPrice());
+        pricetv.setText("交易价格:"+order.getProductPrice());
         statetv.setText(order.getStatus());
         Glide.with(context)
                 .load("https://community.fastly.steamstatic.com/economy/image/"+order.getImageUrl()+"/128fx128f?allow_animated=1")

@@ -55,7 +55,12 @@ public class RepoFrament extends Fragment {
                 }catch (MalformedURLException e) {
                     throw new RuntimeException(e);
                 }
-                repo= httpUtils.getRepoGoods(steamid,page);
+                if (steamid=="") {
+                    Toast.makeText(getActivity(), "请绑定Steam", Toast.LENGTH_SHORT).show();
+                }else{
+                    repo= httpUtils.getRepoGoods(steamid,page);
+                }
+
 
 
                 if (repo!=null && repo.size()>0) {

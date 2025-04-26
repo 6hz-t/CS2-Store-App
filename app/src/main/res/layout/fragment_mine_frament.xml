@@ -151,6 +151,39 @@
             android:layout_height="1dp"
             android:background="#E0E0E0" />
 
+
+        <!-- 账号信息选项 -->
+        <LinearLayout
+            android:id="@+id/accountinfo_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:background="#FFFFFF"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/auth2"
+                android:layout_marginRight="16dp" />
+
+            <TextView
+                android:id="@+id/accountinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的钱包"
+                android:textColor="#333333"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0" />
         <!-- 我的订单选项 -->
         <LinearLayout
             android:id="@+id/myorders_option"
@@ -179,38 +212,7 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#E0E0E0" />
 
-        <!-- 账号信息选项 -->
-        <LinearLayout
-            android:id="@+id/accountinfo_option"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:background="#FFFFFF"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/auth2"
-                android:layout_marginRight="16dp" />
-
-            <TextView
-                android:id="@+id/accountinfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="账号信息"
-                android:textColor="#333333"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"

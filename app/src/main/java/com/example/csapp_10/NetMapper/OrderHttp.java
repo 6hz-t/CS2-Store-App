@@ -65,7 +65,7 @@ public class OrderHttp {
                    int code = jsonNode.path("code").asInt();
                    responsecode[0] = code;
 
-                   Log.e("response",response.body().string());
+                   Log.e("CSApp_Log",response.body().string());
                } catch (IOException ex) {
                    throw new RuntimeException(ex);
                }
@@ -79,8 +79,10 @@ public class OrderHttp {
         }
 
         if(responsecode[0]==200){
+            Log.e("CSApp_Log","sellersendout success");
             return true;
         }else{
+            Log.e("CSApp_Log","sellersendout failed");
             return false;
         }
     }
@@ -122,6 +124,7 @@ public class OrderHttp {
                     responsecode[0] = code;
                     Log.e("response",response.body().string());
                 } catch (IOException e) {
+                    Log.e("CSApp_Log","buyergetin failed");
                     throw new RuntimeException(e);
                 }
             }
@@ -130,11 +133,14 @@ public class OrderHttp {
         try {
             buyergetinthread.join();
         }   catch (InterruptedException e) {
+            Log.e("CSApp_Log","buyergetin failed");
             throw new RuntimeException(e);
         }
         if(responsecode[0]==200){
+            Log.e("CSApp_Log","buyergetin success");
             return true;
         }else {
+            Log.e("CSApp_Log","buyergetin failed");
             return false;
         }
     }
@@ -186,9 +192,11 @@ public class OrderHttp {
             throw new RuntimeException(e);
         }
         if(responsecode[0]==200){
+            Log.e("CSApp_Log","sellerrefuse success");
             return true;
         }
         else {
+            Log.e("CSApp_Log","sellerrefuse failed");
             return false;
         }
 
@@ -237,9 +245,12 @@ public class OrderHttp {
                                 for (JsonNode orderNode : dataNode) {
                                     Order order = new Order();
                                     order.setOrderId(orderNode.path("id").asText());
+                                    order.setProductId(orderNode.path("assetId").asText());
                                     order.setProductName(orderNode.path("goodName").asText());
-                                    order.setSellerid(orderNode.path("sellerName").asText());
-                                    order.setBuyerid(orderNode.path("buyerName").asText());
+                                    order.setSellerName(orderNode.path("sellerName").asText());
+                                    order.setBuyerName(orderNode.path("buyerName").asText());
+                                    order.setBuyerid(orderNode.path("buyerSteamId").asText());
+                                    order.setSellerid(orderNode.path("sellerSteamId").asText());
                                     order.setProductPrice(orderNode.path("price").asInt());
                                     order.setImageUrl(orderNode.path("goodImg").asText());
                                     if(orderNode.path("state").asInt()==1){
@@ -248,8 +259,6 @@ public class OrderHttp {
                                     }else if (orderNode.path("state").asInt()==0){
                                         //卖家未发货
                                         order.setStatus("卖家未发货");
-                                    }else if (orderNode.path("state").asInt()==4){
-                                        order.setStatus("卖家拒绝交易");
                                     }
 
                                     orders.add(order);
@@ -278,10 +287,11 @@ public class OrderHttp {
         catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         return orders;
 
     }
-    public List<Order> getdoneOrder(String userId) throws IOException {
+    public List<Order> getdoneOrder(String steamId) throws IOException {
         List<Order> orders = new ArrayList<>();
         Thread getdoneOrder = new Thread(new Runnable() {
             @Override
@@ -290,7 +300,7 @@ public class OrderHttp {
                 StringBuilder sb = new StringBuilder();
                 sb.append(getdoneOrderUrl);
                 sb.append("?steamId=");
-                sb.append(userId);
+                sb.append(steamId);
                 ObjectMapper objectMapper = new ObjectMapper();
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
@@ -318,17 +328,21 @@ public class OrderHttp {
                         if (dataNode.isArray()&&dataNode.size()>0) {
                             for (JsonNode orderNode : dataNode) {
                                 Order order = new Order();
+                                order.setSellerid(orderNode.path("sellerSteamId").asText());
                                 order.setProductName(orderNode.path("goodName").asText());
-                                order.setUserId(orderNode.path("sellerName").asText());
-                                order.setProductId(orderNode.path("buyerName").asText());
+                                order.setSellerName(orderNode.path("sellerName").asText());
+                                order.setBuyerName(orderNode.path("buyerName").asText());
                                 order.setProductPrice(orderNode.path("price").asInt());
                                 order.setImageUrl(orderNode.path("goodImg").asText());
-                                if(orderNode.path("state").asInt()==4){
-                                    //卖家已发货
-                                    order.setStatus("卖家已拒绝");
-                                }else if (orderNode.path("state").asInt()==2){
+                                if(orderNode.path("state").asInt()==2){
+                                    //卖家已发货，待收货
+                                    order.setStatus("交易完成");
+                                }else if (orderNode.path("state").asInt()==4){
                                     //卖家未发货
-                                    order.setStatus("交易成功");
+                                    order.setStatus("卖家拒绝交易");
+                                }else {
+                                    order.setStatus("交易取消");
+
                                 }
                                 orders.add(order);
                             }

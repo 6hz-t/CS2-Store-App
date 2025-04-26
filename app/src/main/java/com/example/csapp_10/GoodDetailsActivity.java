@@ -124,6 +124,12 @@ public class GoodDetailsActivity extends AppCompatActivity {
                         if(respcode==200){
                             Toast.makeText(GoodDetailsActivity.this, "已发送交易", Toast.LENGTH_SHORT).show();
                         }
+                        else if(respcode==400){
+                            Toast.makeText(GoodDetailsActivity.this, "请先设置交易链接", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(GoodDetailsActivity.this, "发送交易失败", Toast.LENGTH_SHORT).show();
+                        }
 
                     } catch (MalformedURLException e) {
                         throw new RuntimeException(e);

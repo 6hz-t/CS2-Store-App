@@ -16,10 +16,17 @@ public class UserInfo {
     String username;
     String phone;
     String avatarUrl;
+    long wallet;
 
     String steamId;
     String password="******";
     //getter setter
+    public long getWallet() {
+        return wallet;
+    }
+    public void setWallet(long wallet) {
+        this.wallet = wallet;
+    }
     public String getUsername() {
         return username;
     }

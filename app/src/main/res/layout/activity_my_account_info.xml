@@ -14,7 +14,7 @@
         android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="用户信息"
+        android:text="我的钱包"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="#333333"
@@ -47,7 +47,7 @@
                 android:id="@+id/username_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="4dp"
                 android:text="用户名:"
                 android:textColor="#666666"
                 android:textSize="18sp"
@@ -66,7 +66,7 @@
                 app:layout_constraintStart_toEndOf="@id/username_label"
                 app:layout_constraintTop_toTopOf="@id/username_label" />
 
-            <!-- 手机号标签 -->
+            <!-- 账号标签 -->
             <TextView
                 android:id="@+id/phone_label"
                 android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/username_label" />
 
-            <!-- 手机号显示 -->
+            <!-- 账号显示 -->
             <TextView
                 android:id="@+id/phone_text"
                 android:layout_width="wrap_content"
@@ -90,9 +90,33 @@
                 app:layout_constraintStart_toEndOf="@id/phone_label"
                 app:layout_constraintTop_toTopOf="@id/phone_label" />
 
-            <!-- 邮箱标签 -->
+            <!-- 钱包标签 -->
             <TextView
-                android:id="@+id/email_label"
+                android:id="@+id/wallet_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="钱包余额:"
+                android:textColor="#666666"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone_label" />
+
+            <!-- 钱包余额显示 -->
+            <TextView
+                android:id="@+id/wallet_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="0.00"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@id/wallet_label"
+                app:layout_constraintTop_toTopOf="@id/wallet_label" />
+
+            <!-- SteamID 标签 -->
+            <TextView
+                android:id="@+id/steamid_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -101,9 +125,9 @@
                 android:textColor="#666666"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/phone_label" />
+                app:layout_constraintTop_toBottomOf="@id/wallet_label" />
 
-            <!-- 邮箱显示 -->
+            <!-- SteamID 显示 -->
             <TextView
                 android:id="@+id/steamid_text"
                 android:layout_width="wrap_content"
@@ -112,8 +136,8 @@
                 android:text="76561199190828590"
                 android:textColor="#333333"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@id/email_label"
-                app:layout_constraintTop_toTopOf="@id/email_label" />
+                app:layout_constraintStart_toEndOf="@id/steamid_label"
+                app:layout_constraintTop_toTopOf="@id/steamid_label" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -127,10 +151,12 @@
         android:layout_marginBottom="80dp"
         android:background="#007BFF"
         android:elevation="4dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
+        android:paddingTop="8dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="8dp"
         android:stateListAnimator="@null"
-        android:text="更改信息请前往WEB端"
+        android:text="充值"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

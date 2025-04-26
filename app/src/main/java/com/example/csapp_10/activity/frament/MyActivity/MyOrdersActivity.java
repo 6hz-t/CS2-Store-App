@@ -48,7 +48,7 @@ public class MyOrdersActivity extends AppCompatActivity {
         }
         //显示订单列表
         //TODO: 显示订单列表
-        if (todoorderList == null || todoorderList.size() == 0) {
+        if (doneorderList.size() == 0 && todoorderList.size() == 0) {
             Toast.makeText(this, "No orders found", Toast.LENGTH_SHORT).show();
         }else {
             MyTodoOrdersListAdapter adapter = new MyTodoOrdersListAdapter(this, todoorderList);

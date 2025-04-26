@@ -117,6 +117,7 @@ public class RepoGoodDetailsActivity extends AppCompatActivity {
 
                         });
                         builder.setNegativeButton("取消", (dialog, which) -> dialog.cancel());
+                        builder.show();
                     }
                 });
 
