@@ -128,7 +128,8 @@ public class GoodDetailsActivity extends AppCompatActivity {
                             Toast.makeText(GoodDetailsActivity.this, "请先设置交易链接", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Toast.makeText(GoodDetailsActivity.this, "发送交易失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(GoodDetailsActivity.this, "发送交易失败" +
+                                    "", Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (MalformedURLException e) {
