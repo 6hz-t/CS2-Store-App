@@ -71,7 +71,6 @@ public class RepoFrament extends Fragment {
         } else {
             Toast.makeText(getActivity(), "Context is null", Toast.LENGTH_SHORT).show();
         }
-
         lv.setOnScrollListener(new AbsListView.OnScrollListener()
         {
             @Override
@@ -81,7 +80,7 @@ public class RepoFrament extends Fragment {
                 //滚动到最底部
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
                 {
-                    if (view.getLastVisiblePosition() == view.getCount() - 5)
+                    if (view.getLastVisiblePosition() == view.getCount() - 1)
                     {
                        //更新数据
                         updateData();

@@ -1,0 +1,81 @@
+{
+    "code": 200,
+    "msg": null,
+    "data": {
+      "page": 1,
+      "size": 1,
+      "total": 101,
+      "list": [
+        {
+          "appId": 730,
+          "assetId": "36887914905",
+          "classId": "5537026494",
+          "instanceId": "0",
+          "iconUrl": "-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9Q1LO5kNoBhSQl-fROuk2fDQQFp7a1FU4-rxLVc1h_LOcGQQvovux9fbwKKsMumAxz0CvMYk2b2To9Tz3gD6ux07ellOukQ",
+          "name": "全球攻势徽章",
+          "type": "非凡 收藏品",
+          "nameColor": "D2D2D2",
+          "marketName": "全球攻势徽章",
+          "tradable": 0,
+          "tags": [
+            {
+              "category": "Type",
+              "internal_name": "CSGO_Type_Collectible",
+              "localized_category_name": "类型",
+              "localized_tag_name": "收藏品",
+              "color": null
+            },
+            {
+              "category": "Quality",
+              "internal_name": "normal",
+              "localized_category_name": "类别",
+              "localized_tag_name": "普通",
+              "color": null
+            },
+            {
+              "category": "Rarity",
+              "internal_name": "Rarity_Ancient",
+              "localized_category_name": "品质",
+              "localized_tag_name": "非凡",
+              "color": "eb4b4b"
+            }
+          ],
+          "actions": [
+            {
+              "link": "steam://rungame/730/76561202255233023/+csgo_econ_action_preview%20S%owner_steamid%A%assetid%D10286378621523734496",
+              "name": "在游戏中检视…"
+            }
+          ],
+          "descriptionItems": [
+            {
+              "type": "html",
+              "value": "此徽章旨在纪念游戏更新前您已在《反恐精英：全球攻势》社区拥有的忠实会员资格。\n\n<i>传奇永不消逝。</i>",
+              "name": "description",
+              "color": null
+            },
+            {
+              "type": "html",
+              "value": " ",
+              "name": "blank",
+              "color": null
+            },
+            {
+              "type": "html",
+              "value": "",
+              "name": "attribute",
+              "color": null
+            }
+          ],
+          "marketActions": [
+            {
+              "link": "steam://rungame/730/76561202255233023/+csgo_econ_action_preview%20M%listingid%A%assetid%D10286378621523734496",
+              "name": "在游戏中检视…"
+            }
+          ],
+          "commodity": 0,
+          "state": 0
+        }
+      ]
+    },
+    "success": true
+  }

@@ -1,35 +1,23 @@
 package com.example.csapp_10.activity.frament.adapter;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.text.InputType;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 
 import com.example.csapp_10.Entity.MarketGood;
-import com.example.csapp_10.GoodDetailsActivity;
-import com.example.csapp_10.NetMapper.HttpUtils;
 import com.example.csapp_10.R;
 import com.example.csapp_10.RepoGoodDetailsActivity;
-
-import java.io.IOException;
 
 import java.util.List;
 
@@ -64,6 +52,7 @@ public class RepoListAdapter extends ArrayAdapter<MarketGood> {
         TextView name = convertView.findViewById(R.id.repo_product_name);
         TextView price = convertView.findViewById(R.id.repo_product_price);
         TextView salecount = convertView.findViewById(R.id.repo_product_salecount);
+        TextView isonsell = convertView.findViewById(R.id.repo_product_isonsell);
         MarketGood product = productList.get(position);
 
 
@@ -76,10 +65,15 @@ public class RepoListAdapter extends ArrayAdapter<MarketGood> {
                 .into(iv);
         name.setText(product.getName());
         salecount.setText(String.valueOf(product.getType()));
-        if(product.getState()==0){
-            price.setText(String.valueOf("不可交易" ));
-        }else{
+        if(product.getTardeable()==1){
             price.setText(String.valueOf("可交易" ));
+        }else{
+            price.setText(String.valueOf("不可交易" ));
+        }
+        if(product.getState()==1){
+            isonsell.setText(String.valueOf("已上架" ));
+        }else{
+            isonsell.setText(String.valueOf("" ));
         }
 
 
@@ -108,6 +102,8 @@ public class RepoListAdapter extends ArrayAdapter<MarketGood> {
         intent.putExtra("product_seller_id", product.getSellerId());
         intent.putExtra("product_type", product.getType());
         intent.putExtra("product_id", product.getAssetId());
+        intent.putExtra("product_tradeable", product.getTardeable());
+        intent.putExtra("product_state", product.getState());
         context.startActivity(intent);
 
 

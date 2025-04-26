@@ -19,13 +19,14 @@ public class MarketGood {
     private String assetId;
     private String sellerId;
     private int price;
-    private int state;
+    private int tardeable;
     private int appId;
     private String classId;
     private String instanceId;
     private String iconUrl;
     private String name;
     private String type;
+    int state;
     private String nameColor;
     private String marketName;
 
@@ -33,11 +34,11 @@ public class MarketGood {
 
     }
 
-    public MarketGood(String assetId, String sellerId, int price, int state, int appId, String classId, String instanceId, String iconUrl, String name, String type, String nameColor, String marketName) {
+    public MarketGood(String assetId, String sellerId, int price, int tardeable, int appId, String classId, String instanceId, String iconUrl, String name, String type, String nameColor, String marketName) {
         this.assetId = assetId;
         this.sellerId = sellerId;
         this.price = price;
-        this.state = state;
+        this.tardeable = tardeable;
         this.appId = appId;
         this.classId = classId;
         this.instanceId = instanceId;
@@ -47,6 +48,12 @@ public class MarketGood {
         this.nameColor = nameColor;
         this.marketName = marketName;
 
+    }
+    public int getState() {
+        return state;
+    }
+    public void setState(int state) {
+        this.state = state;
     }
     public String getAssetId() {
         return assetId;
@@ -66,11 +73,11 @@ public class MarketGood {
     public void setPrice(int price) {
         this.price = price;
     }
-    public int getState() {
-        return state;
+    public int getTardeable() {
+        return tardeable;
     }
-    public void setState(int state) {
-        this.state = state;
+    public void setTardeable(int tardeable) {
+        this.tardeable = tardeable;
     }
     public int getAppId() {
         return appId;
@@ -126,7 +133,7 @@ public class MarketGood {
                 "assetId='" + assetId + '\'' +
                 ", sellerId='" + sellerId + '\'' +
                 ", price=" + price +
-                ", state=" + state +
+                ", state=" + tardeable +
                 ", appId=" + appId +
                 ", classId='" + classId + '\'' +
                 ", instanceId='" + instanceId + '\'' +

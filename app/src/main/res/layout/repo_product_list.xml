@@ -49,17 +49,34 @@
             android:textColor="#FF5722"
             android:maxLines="1"
             android:ellipsize="end" />
-
-        <TextView
-            android:id="@+id/repo_product_salecount"
-            android:paddingTop="8dp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="在售数量"
-            android:textSize="14sp"
-            android:textColor="#757575"
-            android:maxLines="1"
-            android:ellipsize="end" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/repo_product_salecount"
+                android:paddingTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="在售数量"
+                android:textSize="14sp"
+                android:textColor="#757575"
+                android:maxLines="1"
+                android:ellipsize="end" />
+            <TextView
+                android:id="@+id/repo_product_isonsell"
+                android:paddingTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFA500"
+                android:text="已上架"
+                android:maxLines="1"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical|right"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>

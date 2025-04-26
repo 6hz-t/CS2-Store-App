@@ -1,14 +1,9 @@
 package com.example.csapp_10.NetMapper;
 
-import static java.security.AccessController.getContext;
-
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.csapp_10.Entity.MarketGood;
-import com.example.csapp_10.Entity.Product;
 import com.example.csapp_10.Entity.UserInfo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -20,9 +15,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.ConnectException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -44,9 +37,46 @@ public class HttpUtils {
     String getRepoList = BASE_URL + "/inventory/get";
     String sellGood = BASE_URL + "/good/sell";
     String getuserinfio = BASE_URL + "/user/info";
+    String getoutMarket=BASE_URL+"/good/unsell";
     MediaType JSON = MediaType.get("application/json; charset=utf-8");
     public HttpUtils() throws MalformedURLException {
 
+    }
+
+    public int getoutMarket(String assetId) throws IOException {
+        int[]code=new int[1];
+        Thread getoutMarketThread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // /good/unsell  get方法
+                StringBuilder url = new StringBuilder(getoutMarket);
+                url.append("?assetId=").append(assetId);
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url(url.toString())
+                        .build();
+
+                try (Response response = client.newCall(request).execute()) {
+                    if (response.isSuccessful() && response.body()!= null) {
+                        String result = response.body().string();
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        JsonNode jsonNode = objectMapper.readTree(result);
+                        code[0] = jsonNode.get("code").asInt();
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        });
+        getoutMarketThread.start();
+        try {
+            getoutMarketThread.join();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
+
+        return code[0];
     }
     public String getSteamid(String account) throws IOException {
         final String[] steamid = {""};
@@ -118,7 +148,7 @@ public class HttpUtils {
                                good.setAssetId(productNode.get("assetId").asText());
                                good.setSellerId(productNode.get("sellerId").asText());
                                good.setPrice(productNode.get("price").asInt());
-                               good.setState(productNode.get("state").asInt());
+                               good.setTardeable(productNode.get("state").asInt());
                                good.setAppId(productNode.get("appId").asInt());
                                good.setClassId(productNode.get("classId").asText());
                                good.setInstanceId(productNode.get("instanceId").asText());
@@ -203,10 +233,9 @@ public class HttpUtils {
                                 good.setType(productNode.get("type").asText());
                                 good.setNameColor(productNode.get("nameColor").asText());
                                 good.setMarketName(productNode.get("marketName").asText());
-                                good.setState(productNode.get("tradable").asInt());
+                                good.setTardeable(productNode.get("tradable").asInt());
+                                good.setState(productNode.get("state").asInt());
                                 productList.add(good);
-
-
                             }
 
                         }
@@ -273,7 +302,7 @@ public class HttpUtils {
         return code[0];
 
     }
-    public int[] sellProduct(String assetId, String sellerId, double price) throws IOException {
+    public int[] sellgood(String assetId, String sellerId, double price) throws IOException {
         int code[]=new int[2];
         Thread sellProductThread=new Thread(new Runnable() {
             @Override

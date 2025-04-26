@@ -79,7 +79,7 @@
             android:id="@+id/details_repo_product_description_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="商品描述"
+            android:text="详情描述"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#1F2937" />
