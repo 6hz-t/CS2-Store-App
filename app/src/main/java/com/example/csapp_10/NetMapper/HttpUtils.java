@@ -25,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -121,96 +122,64 @@ public class HttpUtils {
         return steamid[0];
 
     }
-    public List<MarketGood> getMarketGoods(String steamid) throws IOException {
-        List<MarketGood> productList = new LinkedList<>();
-       Thread getProductListThread=new Thread(new Runnable() {
-           @Override
-           public void run() {
-               // /good/getGoodList  get方法
-               ObjectMapper objectMapper = new ObjectMapper();
-               OkHttpClient client = new OkHttpClient();
-               Request request = new Request.Builder()
-                       .url(getProductList)
-                       .build();
-               try (Response response = client.newCall(request).execute()) {
-                   if (response.isSuccessful() && response.body() != null) {
-                       String result = response.body().string();
-                       JsonNode jsonNode = objectMapper.readTree(result);
-                       JsonNode data = jsonNode.get("data");
-                       if (data != null&&data.isArray()) {
-                           for (JsonNode productNode : data) {
-                                     /*"assetId": "",
-                                       "sellerId": "",
-                                       "price": 0,
-                                       "state": 0,
-                                       "appId": 0,
-                                       "classId": "",
-                                       "instanceId": "",
-                                       "iconUrl": "",
-                                       "name": "",
-                                       "type": "",
-                                       "nameColor": "",
-                                       "marketName": ""*/
-                               String sellerId=productNode.get("sellerId").asText();
-                               if(sellerId.equals(steamid)){
-                                   continue;
-                               }
-                               MarketGood good = new MarketGood();
-                               good.setAssetId(productNode.get("assetId").asText());
-                               good.setSellerId(productNode.get("sellerId").asText());
-                               good.setPrice(productNode.get("price").asInt());
-                               good.setTardeable(productNode.get("state").asInt());
-                               good.setAppId(productNode.get("appId").asInt());
-                               good.setClassId(productNode.get("classId").asText());
-                               good.setInstanceId(productNode.get("instanceId").asText());
-                               good.setIconUrl(productNode.get("iconUrl").asText());
-                               good.setName(productNode.get("name").asText());
-                               good.setType(productNode.get("type").asText());
-                               good.setNameColor(productNode.get("nameColor").asText());
-                               good.setMarketName(productNode.get("marketName").asText());
-                               productList.add(good);
-
-                           }
-                           //释放资源
-                          /* response.body().close();
-                           client.dispatcher().executorService().shutdown();
-                           client.connectionPool().evictAll();
-                           client.cache().close();*/
-
-                       }
-                       //释放资源
-
-
-
-
-                   }
-               } catch (IOException e) {
-                   Log.e("CSApp_Log", "run: "+e.getMessage());
-                   throw new RuntimeException(e);
-               }
-
-
-           }
-       });
-       getProductListThread.start();
-       try {
-           getProductListThread.join();
-       }catch (InterruptedException e) {
-           e.printStackTrace();
-       }
-        Collections.shuffle(productList);
-       Log.e("CSApp_Log", "HttpUtils.getMarketGoods: "+productList.size());
-        return productList;
+    public CompletableFuture<List<MarketGood>> getMarketGoodsAsync(String steamid) {
+        CompletableFuture<List<MarketGood>> future = new CompletableFuture<>();
+        new Thread(() -> {
+            List<MarketGood> productList = new LinkedList<>();
+            try {
+                // /good/getGoodList  get方法
+                ObjectMapper objectMapper = new ObjectMapper();
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url(getProductList)
+                        .build();
+                try (Response response = client.newCall(request).execute()) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String result = response.body().string();
+                        JsonNode jsonNode = objectMapper.readTree(result);
+                        JsonNode data = jsonNode.get("data");
+                        if (data != null && data.isArray()) {
+                            for (JsonNode productNode : data) {
+                                String sellerId = productNode.get("sellerId").asText();
+                                if (sellerId.equals(steamid)) {
+                                    continue;
+                                }
+                                MarketGood good = new MarketGood();
+                                good.setAssetId(productNode.get("assetId").asText());
+                                good.setSellerId(productNode.get("sellerId").asText());
+                                good.setPrice(productNode.get("price").asInt());
+                                good.setTardeable(productNode.get("state").asInt());
+                                good.setAppId(productNode.get("appId").asInt());
+                                good.setClassId(productNode.get("classId").asText());
+                                good.setInstanceId(productNode.get("instanceId").asText());
+                                good.setIconUrl(productNode.get("iconUrl").asText());
+                                good.setName(productNode.get("name").asText());
+                                good.setType(productNode.get("type").asText());
+                                good.setNameColor(productNode.get("nameColor").asText());
+                                good.setMarketName(productNode.get("marketName").asText());
+                                productList.add(good);
+                            }
+                        }
+                    }
+                }
+                Collections.shuffle(productList);
+                future.complete(productList);
+            } catch (Exception e) {
+                future.completeExceptionally(e);
+            }
+        }).start();
+        return future;
     }
-    public List<MarketGood> getRepoGoods(String steamid,int page) throws IOException {
-        List<MarketGood> productList = new LinkedList<>();
-        Thread getProductListThread=new Thread(new Runnable() {
-            @Override
-            public void run() {
+    public CompletableFuture<List<MarketGood>> getRepoGoodsAsync(String steamid, int page) {
+        CompletableFuture<List<MarketGood>> future = new CompletableFuture<>();
+        new Thread(() -> {
+            List<MarketGood> productList = new LinkedList<>();
+            try {
                 // /inventory/get  get方法
                 StringBuilder finalurl = new StringBuilder(getRepoList);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    finalurl.append("?steamId=").append(URLEncoder.encode(steamid, StandardCharsets.UTF_8)).append("&page=").append(page).append("&size=50");
+                    finalurl.append("?steamId=").append(URLEncoder.encode(steamid, StandardCharsets.UTF_8))
+                            .append("&page=").append(page).append("&size=50");
                 }
                 ObjectMapper objectMapper = new ObjectMapper();
                 OkHttpClient client = new OkHttpClient();
@@ -222,19 +191,8 @@ public class HttpUtils {
                         String result = response.body().string();
                         JsonNode jsonNode = objectMapper.readTree(result);
                         JsonNode data = jsonNode.path("data").path("list");
-                        if (data != null&&data.isArray()) {
+                        if (data != null && data.isArray()) {
                             for (JsonNode productNode : data) {
-                                /*"appId": 0,
-                                        "assetId": "",
-                                        "classId": "",
-                                        "instanceId": "",
-                                        "iconUrl": "",
-                                        "name": "",
-                                        "type": "",
-                                        "nameColor": "",
-                                        "marketName": "",
-                                        "tradable": 0,
-*/
                                 MarketGood good = new MarketGood();
                                 good.setAssetId(productNode.get("assetId").asText());
                                 good.setAppId(productNode.get("appId").asInt());
@@ -249,27 +207,18 @@ public class HttpUtils {
                                 good.setState(productNode.get("state").asInt());
                                 productList.add(good);
                             }
-
                         }
-
-
-                    }
-                } catch (IOException e) {
-                   //throw new RuntimeException(e);
-                    if (e instanceof ConnectException) {
-                        Log.e("CSApp_Log ConnectionFailed", "连接超时", e);
                     }
                 }
+                future.complete(productList);
+            } catch (IOException e) {
+                if (e instanceof ConnectException) {
+                    Log.e("CSApp_Log ConnectionFailed", "连接超时", e);
+                }
+                future.completeExceptionally(e);
             }
-        });
-        getProductListThread.start();
-        try {
-            getProductListThread.join();
-        }catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.e("CSApp_Log", "HttpUtils.getRepoGoods: "+productList.size());
-        return productList;
+        }).start();
+        return future;
     }
     public int buyProduct(String assetId, String sellerId, String purchaserId, double price, int state) throws IOException {
         int code[]=new int[1];

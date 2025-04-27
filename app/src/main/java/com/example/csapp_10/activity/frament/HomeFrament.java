@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class HomeFrament extends Fragment {
@@ -35,11 +36,8 @@ public class HomeFrament extends Fragment {
     int status;
     ProductListAdapter adapter;
     ListView lv;
-    List<MarketGood> marketGoods=new LinkedList<>();
+    List<MarketGood> marketGoods = new LinkedList<>();
     String steamid;
-
-
-
 
     @SuppressLint("Range")
     @Nullable
@@ -48,38 +46,39 @@ public class HomeFrament extends Fragment {
         Context context = getContext();
         rootview = inflater.inflate(R.layout.fragment_home_frament, container, false);
         lv = rootview.findViewById(R.id.listView);
-        SharedPreferences sp=context.getSharedPreferences("user_info",MODE_PRIVATE);
-        steamid=sp.getString("steamid","");
-
-        /*SQLite dbUtil = new SQLite(context);*/
-
+        SharedPreferences sp = context.getSharedPreferences("user_info", MODE_PRIVATE);
+        steamid = sp.getString("steamid", "");
 
         SearchView searchView = rootview.findViewById(R.id.search_bar);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String name) {
-                HttpUtils httpUtils;
-                List<MarketGood> marketGoods = Collections.emptyList();
+                HttpUtils httpUtils = null;
                 try {
-                    httpUtils= new HttpUtils();
-                    marketGoods= httpUtils.getMarketGoods(steamid);
-                    List<MarketGood> filteredList = marketGoods.stream()
-                            .filter(good -> good.getName().toLowerCase().contains(name.toLowerCase()))
-                            .collect(Collectors.toList());
-                    if (filteredList!= null &&!filteredList.isEmpty()) {
-                       adapter = new ProductListAdapter(context, filteredList);
-                       lv.setAdapter(adapter);
-                    }
-                    else {
-                        Toast.makeText(getActivity(), "暂无相关饰品", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (MalformedURLException e) {
-                    Log.e("CSApp_Log", "Error creating HttpUtils", e);
-                } catch (IOException e) {
-
+                    httpUtils = new HttpUtils();
+                } catch (MalformedURLException e) {
                     throw new RuntimeException(e);
                 }
-
+                CompletableFuture<List<MarketGood>> future = httpUtils.getMarketGoodsAsync(steamid);
+                future.thenAcceptAsync(goods -> {
+                    List<MarketGood> filteredList = goods.stream()
+                            .filter(good -> good.getName().toLowerCase().contains(name.toLowerCase()))
+                            .collect(Collectors.toList());
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            if (filteredList != null && !filteredList.isEmpty()) {
+                                try {
+                                    adapter = new ProductListAdapter(context, filteredList);
+                                } catch (MalformedURLException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                lv.setAdapter(adapter);
+                            } else {
+                                Toast.makeText(getActivity(), "暂无相关饰品", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }, getActivity().getMainExecutor());
                 return false;
             }
 
@@ -90,26 +89,25 @@ public class HomeFrament extends Fragment {
         });
 
         if (context != null) {
-            /*List<Product> productList = dbUtil.getProductList();*/
-            /*Collections.shuffle(productList);
-            if (productList == null || productList.size() == 0) {
-                Toast.makeText(getActivity(), "No products found", Toast.LENGTH_SHORT).show();
-            }*/
-            HttpUtils httpUtils;
-            List<MarketGood> marketGoods = Collections.emptyList();
+            HttpUtils httpUtils = null;
             try {
-                httpUtils= new HttpUtils();
-                marketGoods=httpUtils.getMarketGoods(steamid);
-                adapter = new ProductListAdapter(context, marketGoods);
-                lv.setAdapter(adapter);
-
+                httpUtils = new HttpUtils();
             } catch (MalformedURLException e) {
-                Log.e("CSApp_Log", "Error creating HttpUtils", e);
-            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-
+            CompletableFuture<List<MarketGood>> future = httpUtils.getMarketGoodsAsync(steamid);
+            future.thenAcceptAsync(goods -> {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        try {
+                            adapter = new ProductListAdapter(context, goods);
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException(e);
+                        }
+                        lv.setAdapter(adapter);
+                    });
+                }
+            }, getActivity().getMainExecutor());
         } else {
             Log.e("CSApp_Log", "Context is null");
             Toast.makeText(getActivity(), "Context is null", Toast.LENGTH_SHORT).show();

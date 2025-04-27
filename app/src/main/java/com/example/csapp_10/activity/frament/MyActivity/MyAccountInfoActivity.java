@@ -40,7 +40,6 @@ public class MyAccountInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Uri webpage = Uri.parse("https://6hz.fun");
-                // 创建一个用于查看网页的 Intent
                 Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                 startActivity(intent);
             }

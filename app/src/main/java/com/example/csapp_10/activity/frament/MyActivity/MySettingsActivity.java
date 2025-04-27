@@ -33,19 +33,9 @@ public class MySettingsActivity extends AppCompatActivity {
         aboutLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 处理关于我们的点击事件
                 Uri webpage = Uri.parse("https://6hz.fun");
-                // 创建一个用于查看网页的 Intent
                 Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                // 检查是否有应用可以处理该 Intent
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(MySettingsActivity.this, "没有找到应用可以处理该网页", Toast.LENGTH_SHORT).show();
-                }
-
-
-
+                startActivity(intent);
             }
         });
         feedbackLayout.setOnClickListener(new View.OnClickListener() {
