@@ -113,4 +113,4 @@ git push origin feature/your-feature-name
 ## 八、联系我们
 使用中若遇问题或有优化建议，欢迎通过以下方式反馈：
 - **GitHub Issues**：在[项目Issues页面](https://github.com/6hz-t/CS2-Store-App/issues)提交问题或建议。
-- **邮件**：发送邮件至[6hz-t@outlook.com](mailto:6hz-t@outlook.com) 沟通交流。 
+- **邮件**：发送邮件至[t-6hz@outlook.com](mailto:t-6hz@outlook.com) 沟通交流。 
